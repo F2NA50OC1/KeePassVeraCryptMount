@@ -1,0 +1,18 @@
+# Build output (tools/build.sh, dotnet build, Visual Studio)
+build/
+dist/
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# KeePass binaries used for building (not part of the repository)
+lib/
+
+# Packages
+*.plgx
+*.zip
+
+# Python
+__pycache__/

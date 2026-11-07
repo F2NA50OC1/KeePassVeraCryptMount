@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    One project file for two uses:
+    1. "dotnet build" / Visual Studio 2019+ builds KeePassVeraCryptMount.dll.
+    2. KeePass compiles the plugin from source when it is packaged as a .plgx file. KeePass only
+       reads AssemblyName and the explicit Compile / EmbeddedResource / Reference items below,
+       so every source file must be listed here (no wildcards), and the code must stay
+       compatible with C# 5: KeePass on Windows uses the C# 5 compiler of .NET Framework 4.x.
+       LangVersion 5 makes "dotnet build" enforce that.
+    Do not reference files outside this folder: KeePass 2.62 refuses PLGX files that contain
+    paths like ..\..\License.txt (that is what broke version 1.0.7).
+    The plugin has no embedded resources and no icon of its own; its few button icons are
+    KeePass' own (Resources.cs).
+    New source file? Add a Compile item here, then run tools/build.sh (see docs/MAINTAINING.md).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net40</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>KeePassVeraCryptMount</AssemblyName>
+    <RootNamespace>KeePassVeraCryptMount</RootNamespace>
+    <LangVersion>5</LangVersion>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <!-- Path of the KeePass.exe to compile against (any KeePass 2.x); override with -p:KeePassExe=... -->
+    <KeePassExe Condition="'$(KeePassExe)' == ''">$(MSBuildThisFileDirectory)..\..\lib\KeePass\KeePass.exe</KeePassExe>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="KeePass">
+      <HintPath>$(KeePassExe)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommandLine.cs" />
+    <Compile Include="EntryStrings.cs" />
+    <Compile Include="KdfAlgorithms.cs" />
+    <Compile Include="KeePassVeraCryptMountExt.cs" />
+    <Compile Include="LanguageTexts.cs" />
+    <Compile Include="LogicalDriveLetters.cs" />
+    <Compile Include="MountController.cs" />
+    <Compile Include="MountMenuItemState.cs" />
+    <Compile Include="MountSettings.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="PasswordWindowProbe.cs" />
+    <Compile Include="PathResolver.cs" />
+    <Compile Include="PendingAutoType.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="PluginOptions.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="TypingSafeguards.cs" />
+    <Compile Include="VeraCryptArguments.cs" />
+    <Compile Include="VeraCryptInfo.cs" />
+    <Compile Include="VeraCryptMountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VeraCryptMountForm.Designer.cs">
+      <DependentUpon>VeraCryptMountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VeraCryptMountForm.AutoDriveLetterComboBoxItem.cs">
+      <DependentUpon>VeraCryptMountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VeraCryptOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VeraCryptOptionsForm.Designer.cs">
+      <DependentUpon>VeraCryptOptionsForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

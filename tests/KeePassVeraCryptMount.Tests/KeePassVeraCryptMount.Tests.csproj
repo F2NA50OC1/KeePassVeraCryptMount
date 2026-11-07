@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Test program for the plugin's logic. Run with: mono KeePassVeraCryptMount.Tests.exe
+       (or directly on Windows). Not part of the plugin. -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>KeePassVeraCryptMount.Tests</AssemblyName>
+    <RootNamespace>KeePassVeraCryptMount.Tests</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <KeePassExe Condition="'$(KeePassExe)' == ''">$(MSBuildThisFileDirectory)..\..\lib\KeePass\KeePass.exe</KeePassExe>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\KeePassVeraCryptMount\KeePassVeraCryptMount.csproj" />
+    <Reference Include="KeePass">
+      <HintPath>$(KeePassExe)</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,54 @@
+#include <windows.h>
+// Control IDs as in VeraCrypt (src/Mount/Resource.h, src/Common/Resource.h): the plugin finds the
+// password field by its ID.
+#define IDC_PASSWORD 1035
+#define IDC_PKCS5_PRF_ID 5127
+#define IDC_PIM 5130
+#define IDC_TOKEN_PASSWORD 5102
+// Version like the real VeraCrypt.exe, so the plugin's version-dependent arguments are used.
+1 VERSIONINFO
+FILEVERSION 1,26,31,0
+PRODUCTVERSION 1,26,31,0
+FILEOS 0x40004L
+FILETYPE 0x1L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "Fake VeraCrypt for KeePassVeraCryptMount tests"
+            VALUE "FileVersion", "1.26.31"
+            VALUE "ProductName", "VeraCrypt (test double)"
+            VALUE "ProductVersion", "1.26.31"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+// 1 = like VeraCrypt's IDD_PASSWORD_DLG (src/Mount/Mount.rc): password field, KDF list box and a
+//     PIM field that is hidden unless shown (as in VeraCrypt, where "Use PIM" shows it).
+1 DIALOGEX 0, 0, 330, 64
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Enter VeraCrypt Volume Password"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_PASSWORD,69,8,179,14,ES_PASSWORD | ES_AUTOHSCROLL
+    COMBOBOX        IDC_PKCS5_PRF_ID,69,26,96,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
+    DEFPUSHBUTTON   "OK",IDOK,252,8,69,14
+    PUSHBUTTON      "Cancel",IDCANCEL,252,25,69,14
+    RTEXT           "Password:",-1,0,10,65,13
+    RTEXT           "KDF:",-1,0,27,65,11
+END
+// 2 = like VeraCrypt's IDD_TOKEN_PASSWORD (src/Common/Common.rc): PIN field only.
+2 DIALOGEX 0, 0, 281, 47
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Security token password/PIN required"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_TOKEN_PASSWORD,8,20,199,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,215,7,59,14
+    PUSHBUTTON      "Cancel",IDCANCEL,215,25,59,14
+END

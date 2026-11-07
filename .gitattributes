@@ -1,0 +1,11 @@
+# Line endings: normalised (LF) in the repository.
+* text=auto
+
+# C# sources and the solution: CRLF in every checkout (Visual Studio; tools/build.sh checks
+# "python3 tools/apply-headers.py --check": UTF-8 with BOM and CRLF).
+*.cs  text eol=crlf
+*.sln text eol=crlf
+
+# Scripts: LF in every checkout, also on Windows (bash and python need it).
+*.sh  text eol=lf
+*.py  text eol=lf

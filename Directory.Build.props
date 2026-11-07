@@ -1,0 +1,9 @@
+<Project>
+  <!-- Keep build output (bin, obj) out of the source folders: they stay clean, and nothing
+       generated can end up in the .plgx package. -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)build\bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+</Project>
